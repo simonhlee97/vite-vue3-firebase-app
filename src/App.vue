@@ -1,51 +1,21 @@
+<template>
+  <the-header></the-header>
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>
+
 <script>
-import TheHeader from './components/layout/TheHeader.vue'
-import Hero from './components/Hero.vue'
-import Navbar from './components/Navbar.vue'
-import Card from './components/Card.vue'
-import LoginModal from './components/LoginModal.vue'
-import firebase from './utils/firebase'
+import TheHeader from './components/layout/TheHeader.vue';
+
 export default {
   components: {
-    Hero,
-    Navbar,
-    Card,
-    LoginModal,
     TheHeader
-  },
-  data() {
-    return {
-      isLoginOpen: false,
-      isLoggedIn: false,
-      authUser: {}
-    }
-  },
-  mounted() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-        this.authUser = user;
-        console.log(user);
-      } else {
-        this.isLoggedIn = false
-        this.authUser = {}
-      }
-    })
-  }
+  }  
 }
 </script>
-
-
-<template>
-  <div id="app">
-    <!-- <Navbar @open-login-modal="isLoginOpen=true"/> -->
-    <TheHeader />
-    <main>
-      <router-view :key="$route.fullPath"></router-view>
-    </main>
-    <!-- <LoginModal v-if="isLoginOpen" @close-login="isLoginOpen=false" /> -->
-  </div>
-</template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
@@ -55,14 +25,34 @@ export default {
 }
 
 html {
-  font-family: "Roboto", Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
   margin: 0;
 }
+
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.route-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.route-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
-
-
-
-

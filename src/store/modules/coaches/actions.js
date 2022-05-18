@@ -9,11 +9,10 @@ export default {
       areas: data.areas
     };
 
-
-    const DBURL = `https://play-golf-korea-vue-default-rtdb.asia-southeast1.firebasedatabase.app`
+    const token = context.rootGetters.token;
 
     const response = await fetch(
-      `https://play-golf-korea-vue-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${userId}.json`,
+      `https://play-golf-korea-vue-default-rtdb.asia-southeast1.firebasedatabase.app/coaches/${userId}.json?auth=` + token,
       {
         method: 'PUT',
         body: JSON.stringify(coachData)
